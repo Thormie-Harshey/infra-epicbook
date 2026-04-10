@@ -45,19 +45,22 @@ stages:
               azureSubscription: "epicbook-azure-connection"
               scriptType: "bash"
               scriptLocation: "inlineScript"
-              # Ensure the working directory is set to where your .tf files are
               workingDirectory: "$(System.DefaultWorkingDirectory)/terraform"
               inlineScript: |
-                set -e # Terminate script if any command fails
+                set -e 
                 
                 echo "##[group]Terraform Init"
-                terraform init -input=false
+                # You MUST add these backend-config lines here:
+                terraform init -input=false \
+                  -backend-config="resource_group_name=tfstate-rg" \
+                  -backend-config="storage_account_name=epictfstate260410" \
+                  -backend-config="container_name=tfstate" \
+                  -backend-config="key=terraform.tfstate"
                 echo "##[endgroup]"
 
                 terraform validate
 
                 echo "##[group]Terraform Plan"
-                # Added -input=false as seen in your reference image
                 terraform plan -input=false -var="ssh_public_key_path=$(ssh_key_task.secureFilePath)"
                 echo "##[endgroup]"
 

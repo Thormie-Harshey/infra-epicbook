@@ -3,6 +3,15 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "tfstate-rg"
+    storage_account_name = "epictfstate260410"  
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
+}
+
 module "network" {
   source              = "./modules/network"
   location            = azurerm_resource_group.rg.location
