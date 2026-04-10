@@ -32,7 +32,10 @@ module "database" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = module.network.private_subnet_id
+  
+  # Pass the VNet ID from your network module output
+  vnet_id             = module.network.vnet_id 
+  
   db_password         = var.db_password
-  depends_on = [module.network] 
-
+  depends_on          = [module.network]
 }
