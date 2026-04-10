@@ -43,3 +43,11 @@ resource "azurerm_mysql_flexible_server_configuration" "disable_ssl" {
   server_name         = azurerm_mysql_flexible_server.db.name
   value               = "OFF"
 }
+
+resource "azurerm_mysql_flexible_database" "bookstore" {
+  name                = "bookstore"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_mysql_flexible_server.db.name
+  charset             = "utf8mb4"
+  collation           = "utf8mb4_unicode_ci"
+}
