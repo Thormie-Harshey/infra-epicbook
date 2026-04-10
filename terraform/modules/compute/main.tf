@@ -23,7 +23,7 @@ resource "azurerm_network_security_rule" "ssh" {
   access                      = "Allow"
   protocol                    = "Tcp"
   # source_address_prefix       = "${chomp(data.http.myip.response_body)}/32"
- source_address_prefix        =  ["${chomp(data.http.myip.response_body)}/32", "89.33.8.52/32"]
+ source_address_prefixes        =  ["${chomp(data.http.myip.response_body)}/32", "89.33.8.52/32"]
   destination_port_range      = "22"
   source_port_range           = "*"
   destination_address_prefix  = "*"
