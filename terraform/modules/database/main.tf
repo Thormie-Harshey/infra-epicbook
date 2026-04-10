@@ -1,5 +1,5 @@
 resource "azurerm_mysql_flexible_server" "db" {
-  name                   = "epicbookmysqlserver123"
+  name                   = "bookstore"
   resource_group_name    = var.resource_group_name
   location               = var.location
   administrator_login    = "adminuser"
