@@ -19,7 +19,7 @@ stages:
           - task: DownloadSecureFile@1
             name: ssh_key_task # We use this name to reference the path below
             inputs:
-              secureFile: "id_rsa.pub"
+              secureFile: "id_ed25519.pub"
           
           # 2. Extract/Copy the SSH Key to the specific locations Terraform expects
           - script: |
@@ -27,7 +27,7 @@ stages:
               mkdir -p ~/.ssh
               
               echo "Copying key to agent home..."
-              cp $(ssh_key_task.secureFilePath) ~/.ssh/id_rsa.pub
+              cp $(ssh_key_task.secureFilePath) ~/.ssh/id_ed25519.pub
               
               echo "Copying key into Terraform module path..."
               # Based on your reference image, Terraform needs it here:
