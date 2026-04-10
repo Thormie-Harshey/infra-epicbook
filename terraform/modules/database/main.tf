@@ -8,4 +8,10 @@ resource "azurerm_mysql_flexible_server" "db" {
   version                = "8.0.21"
 
   delegated_subnet_id = var.subnet_id
+
+  lifecycle {
+    ignore_changes = [
+      zone,
+    ]
+  }
 }
