@@ -33,4 +33,6 @@ module "database" {
   resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = module.network.private_subnet_id
   db_password         = var.db_password
+  depends_on = [module.network] 
+
 }
