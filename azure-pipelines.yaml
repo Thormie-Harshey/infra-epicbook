@@ -1,0 +1,66 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - terraform/**
+
+stages:
+  - stage: Terraform_Infra_Deploy
+    displayName: "Provision Terraform Infrastructure"
+    jobs:
+      - job: TerraformApply
+        displayName: "Terraform Apply"
+        pool:
+          name: "self-hosted-agent-pool"
+        steps:
+          # 1. Download the file from Secure Files
+          - task: DownloadSecureFile@1
+            name: ssh_key_task # We use this name to reference the path below
+            inputs:
+              secureFile: "id_rsa.pub"
+          
+          # 2. Extract/Copy the SSH Key to the specific locations Terraform expects
+          - script: |
+              echo "Creating .ssh directory..."
+              mkdir -p ~/.ssh
+              
+              echo "Copying key to agent home..."
+              cp $(ssh_key_task.secureFilePath) ~/.ssh/id_rsa.pub
+              
+              echo "Copying key into Terraform module path..."
+              # Based on your reference image, Terraform needs it here:
+              cp $(ssh_key_task.secureFilePath) terraform/modules/compute/id_rsa.pub
+            displayName: "Extract SSH Public Key for Terraform"
+
+          # - task: TerraformInstaller@1
+            # inputs:
+              # terraformVersion: "1.6.6"
+
+          # 3. Run Terraform within the 'terraform' subdirectory
+          - task: AzureCLI@2
+            displayName: "Terraform Init Plan Apply"
+            inputs:
+              azureSubscription: "epicbook-azure-connection"
+              scriptType: "bash"
+              scriptLocation: "inlineScript"
+              # Ensure the working directory is set to where your .tf files are
+              workingDirectory: "$(System.DefaultWorkingDirectory)/terraform"
+              inlineScript: |
+                set -e # Terminate script if any command fails
+                
+                echo "##[group]Terraform Init"
+                terraform init -input=false
+                echo "##[endgroup]"
+
+                terraform validate
+
+                echo "##[group]Terraform Plan"
+                # Added -input=false as seen in your reference image
+                terraform plan -input=false
+                echo "##[endgroup]"
+
+                echo "##[group]Terraform Apply"
+                terraform apply -auto-approve
+                echo "##[endgroup]"
