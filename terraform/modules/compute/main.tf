@@ -60,6 +60,8 @@ resource "azurerm_network_interface" "vm_nic" {
 resource "azurerm_network_interface_security_group_association" "assoc" {
   network_interface_id      = azurerm_network_interface.vm_nic.id
   network_security_group_id = azurerm_network_security_group.vm_nsg.id
+    depends_on = [azurerm_network_interface.vm_nic]
+
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
