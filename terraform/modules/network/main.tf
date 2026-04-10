@@ -23,11 +23,11 @@ resource "azurerm_subnet" "private" {
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.2.0/24"]
 
-  # delegation {
-  #   name = "mysql-delegation"
+  delegation {
+    name = "mysql-delegation"
 
-  #   service_delegation {
-  #     name = "Microsoft.DBforMySQL/flexibleServers"
-  #   }
-  # }
+    service_delegation {
+      name = "Microsoft.DBforMySQL/flexibleServers"
+    }
+  }
 }
