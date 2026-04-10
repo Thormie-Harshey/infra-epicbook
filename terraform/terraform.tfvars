@@ -1,2 +1,2 @@
-ssh_public_key_path = "~/.ssh/id_ed25519"
+# ssh_public_key_path = ""
 db_password         = "Registry22!"

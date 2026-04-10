@@ -58,9 +58,9 @@ stages:
 
                 echo "##[group]Terraform Plan"
                 # Added -input=false as seen in your reference image
-                terraform plan -input=false
+                terraform plan -input=false -var="ssh_public_key_path=$(ssh_key_task.secureFilePath)"
                 echo "##[endgroup]"
 
                 echo "##[group]Terraform Apply"
-                terraform apply -auto-approve
+                terraform apply -auto-approve -var="ssh_public_key_path=$(ssh_key_task.secureFilePath)"
                 echo "##[endgroup]"
