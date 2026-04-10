@@ -13,7 +13,7 @@ stages:
       - job: TerraformApply
         displayName: "Terraform Apply"
         pool:
-          name: "self-hosted-agent-pool"
+          name: "epicbook-agent-pool"
         steps:
           # 1. Download the file from Secure Files
           - task: DownloadSecureFile@1
