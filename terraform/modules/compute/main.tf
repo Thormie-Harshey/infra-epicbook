@@ -3,14 +3,14 @@ data "http" "myip" {
 }
 
 resource "azurerm_public_ip" "vm_ip" {
-  name                = "epicbook-public-ip"
+  name                = "epicbooks-public-ip"
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
 }
 
 resource "azurerm_network_security_group" "vm_nsg" {
-  name                = "epicbook-nsg"
+  name                = "epicbooks-nsg"
   location            = var.location
   resource_group_name = var.resource_group_name
 }
@@ -44,7 +44,7 @@ resource "azurerm_network_security_rule" "http" {
 }
 
 resource "azurerm_network_interface" "vm_nic" {
-  name                = "epicbook-nic"
+  name                = "epicbooks-nic"
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -62,7 +62,7 @@ resource "azurerm_network_interface_security_group_association" "assoc" {
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = "epicbook-vm"
+  name                = "epicbooks-vm"
   resource_group_name = var.resource_group_name
   location            = var.location
   size                = "Standard_D2s_v3"

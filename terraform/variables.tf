@@ -3,7 +3,7 @@ variable "location" {
 }
 
 variable "resource_group_name" {
-  default = "epicbook-rg"
+  default = "epicbooks-rg"
 }
 
 variable "admin_username" {
